@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    tools:context="cl.arroyo.daniel.mapafragmento.RegisterActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="60dp"
+        android:layout_marginTop="20dp"
+        android:text="Registro"
+        android:gravity="center"/>
+    <EditText
+        android:id="@+id/registerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:hint="Nombre completo" />
+    <EditText
+        android:id="@+id/registerEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:hint="E-mail" />
+    <EditText
+        android:id="@+id/registerPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:hint="Contraseña" />
+    <TextView android:id="@+id/register_error"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#e30000"
+        android:padding="10dip"
+        android:textStyle="bold" />
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:text="Registrar" />
+
+    <!--  Link to Login Screen -->
+    <Button
+        android:id="@+id/btnLinkToLoginScreen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:background="@null"
+        android:text="Ya estas registrado. Ingresa aqui!"
+        android:textColor="#226688"
+        android:textStyle="bold" />
+
+
+</LinearLayout>

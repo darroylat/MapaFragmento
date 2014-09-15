@@ -3,6 +3,8 @@ package cl.arroyo.daniel.mapafragmento;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +17,11 @@ import android.widget.TextView;
 
 
 public class MyActivity extends Activity {
-
-
+/*
+    private LoginFragment fragmentoLogin;
+    private RegisterFragment fragmentoRegister;
+    private DashboardFragment dashboardFragment;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +30,39 @@ public class MyActivity extends Activity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new MyMapFragment())
+                    .add(R.id.container, new LoginFragment())
                     .commit();
         }
 
-
     }
+
+    public void cargarFragmento(Fragment fragmento) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.container, fragmento);
+        transaction.commit();
+    }
+
+
+    public LoginFragment getFragmentoLogin() {
+        if(fragmentoLogin == null) fragmentoLogin = new LoginFragment();
+        return fragmentoLogin;
+    }
+
+    public RegisterFragment getFragmentoRegister() {
+        if(fragmentoRegister == null) fragmentoRegister = new RegisterFragment();
+        return fragmentoRegister;
+    }
+
+    public DashboardFragment getDashboardFragment() {
+        if(dashboardFragment == null) dashboardFragment = new DashboardFragment();
+        return dashboardFragment;
+    }
+
+
+
+
+
 
 
     @Override
@@ -52,9 +84,10 @@ public class MyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
+
+
+
     public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
@@ -66,5 +99,5 @@ public class MyActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_my, container, false);
             return rootView;
         }
-    }
+    }*/
 }

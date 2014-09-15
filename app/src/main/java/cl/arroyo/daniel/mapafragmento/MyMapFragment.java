@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -22,6 +23,7 @@ public class MyMapFragment extends Fragment {
     private MapView mMapView;
     private GoogleMap mMap;
     private Bundle mBundle;
+    private LatLng mPosFija;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class MyMapFragment extends Fragment {
 
 
             MapsInitializer.initialize(getActivity());
+
 
 
         mMapView = (MapView) inflatedView.findViewById(R.id.map);
