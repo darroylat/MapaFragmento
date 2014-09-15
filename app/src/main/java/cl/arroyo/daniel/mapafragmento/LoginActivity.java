@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
                             finish();
                         }else{
                             // Error in login
-                            loginErrorMsg.setText("Incorrect username/password");
+                            loginErrorMsg.setText("Correo o contraseña incorrecta");
                         }
                     }
                 } catch (JSONException e) {

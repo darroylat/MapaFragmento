@@ -7,14 +7,14 @@
 
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="WELCOME"
+        android:text="Menu Temporal"
         android:textSize="40dip"
         android:gravity="center"
         android:layout_marginTop="20dip"/>
 
     <Button android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Logout Me"
+        android:text="Desconectarme"
         android:textSize="20dip"
         android:textColor="#226688"
         android:textStyle="bold"
