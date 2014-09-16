@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <item name="verde_aceptar" type="color">#0a8f08</item>
+    <item name="rojo_cancelar" type="color">#e51c23</item>
+    <item name="blanco_comun" type="color">#ffffff</item>
+</resources>

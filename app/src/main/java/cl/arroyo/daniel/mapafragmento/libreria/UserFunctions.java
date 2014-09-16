@@ -1,12 +1,14 @@
 package cl.arroyo.daniel.mapafragmento.libreria;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserFunctions {
@@ -73,6 +75,17 @@ public class UserFunctions {
         }
         return false;
     }
+    public String getUserLoggedIn(Context context){
+        DatabaseHandler db = new DatabaseHandler(context);
+        HashMap<String, String> source = new HashMap<String, String>();
+        source = db.getUserDetails();
+        String email;
+        email = source.get("email");
+
+        return email;
+
+    }
+
 
     /**
      * Function to logout user

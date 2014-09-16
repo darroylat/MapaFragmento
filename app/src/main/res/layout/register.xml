@@ -13,30 +13,30 @@
         android:layout_height="wrap_content"
         android:textSize="60dp"
         android:layout_marginTop="20dp"
-        android:text="Registro"
+        android:text="@string/title_register"
         android:gravity="center"/>
     <EditText
         android:id="@+id/registerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:hint="Nombre completo" />
+        android:hint="@string/full_name" />
     <EditText
         android:id="@+id/registerEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:hint="E-mail" />
+        android:hint="@string/email" />
     <EditText
         android:id="@+id/registerPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:hint="Contraseña" />
+        android:hint="@string/password" />
     <TextView android:id="@+id/register_error"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#e30000"
+        android:textColor="@color/rojo_cancelar"
         android:padding="10dip"
         android:textStyle="bold" />
     <Button
@@ -44,7 +44,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:text="Registrar" />
+        android:text="@string/register"
+        android:background="@color/verde_aceptar"
+        android:textColor="@color/blanco_comun"/>
 
     <!--  Link to Login Screen -->
     <Button
@@ -53,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dip"
         android:background="@null"
-        android:text="Ya estas registrado. Ingresa aqui!"
-        android:textColor="#226688"
+        android:text="@string/go_login"
+        android:textColor="@color/verde_aceptar"
         android:textStyle="bold" />
 
 

@@ -85,7 +85,7 @@ public class RegisterActivity extends Activity {
                             finish();
                         }else{
                             // Error in registration
-                            registerErrorMsg.setText("A ocurrido un error en el registro");
+                            registerErrorMsg.setText(R.string.register_error);
                         }
                     }
                 } catch (JSONException e) {

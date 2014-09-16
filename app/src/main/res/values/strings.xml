@@ -7,4 +7,22 @@
     <string name="title_activity_maps">Map</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="dialog_button_comment_cancel">Cancelar</string>
+    <string name="dialog_button_comment_ok">Enviar</string>
+
+   <!-- Menu de registro y login -->
+    <string name="email">Correo electronico</string>
+    <string name="password">Contraseña</string>
+    <string name="full_name">Nombre completo</string>
+    <string name="login">Ingresar</string>
+    <string name="register">Registrar</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="welcome_login">Bienvenido a</string>
+    <string name="title_register">Registro</string>
+    <string name="go_register">No tengo cuenta. Me registrare!</string>
+    <string name="go_login">Ya estas registrado. Ingresa aqui!</string>
+    <string name="register_error">A ocurrido un error en el registro</string>
+    <string name="login_error">Correo o contraseña incorrecta</string>
+
+
 </resources>

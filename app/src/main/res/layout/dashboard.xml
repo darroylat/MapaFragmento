@@ -10,28 +10,38 @@
         android:text="Menu Temporal"
         android:textSize="40dip"
         android:gravity="center"
-        android:layout_marginTop="20dip"/>
+        android:layout_marginTop="20dip"
+        android:textColor="@color/verde_aceptar"/>
 
-    <Button android:layout_width="fill_parent"
+    <Button android:layout_width="250dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="Desconectarme"
         android:textSize="20dip"
-        android:textColor="#226688"
+        android:textColor="@color/blanco_comun"
         android:textStyle="bold"
         android:id="@+id/btnLogout"
         android:layout_marginTop="80dip"
-        android:background="@null"/>
+        android:background="@color/rojo_cancelar"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
+        <Button
+            android:id="@+id/btnMap"
+            android:text="Ir al Mapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/btnMap"
-        android:text="Ir al Mapa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnInfo"
+            android:text="Ir a la informacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnInfo"
-        android:text="Ir a la informacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

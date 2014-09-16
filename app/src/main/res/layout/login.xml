@@ -9,8 +9,8 @@
     tools:context=".MyActivity$PlaceholderFragment">
 
     <TextView
-        android:text="Bienvenido a"
-        android:textSize="35dp"
+        android:text="@string/welcome_login"
+        android:textSize="35dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,13 +18,13 @@
         android:layout_alignParentEnd="true" />
     <TextView
         android:id="@+id/bienvenida"
-        android:text="Lerolero!"
-        android:textSize="60dp"
+        android:text="@string/app_name"
+        android:textSize="60dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="41dp" />
+        android:layout_marginTop="41dip" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,29 +36,30 @@
 
         <EditText
             android:id="@+id/loginEmail"
-            android:hint="E-mail"
-            android:textSize="25dp"
+            android:hint="@string/email"
+            android:textSize="25dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dip" />
         <EditText
             android:id="@+id/loginPassword"
-            android:hint="Contraseña"
-            android:textSize="25dp"
+            android:hint="@string/password"
+            android:textSize="25dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btnLogin"
-            android:text="Ingresar"
-            android:textColor="#FFFFFFFF"
+            android:text="@string/login"
+            android:textColor="@color/blanco_comun"
             android:textSize="30sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/verde_aceptar"
             />
         <TextView android:id="@+id/login_error"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="#e30000"
+            android:textColor="@color/rojo_cancelar"
             android:padding="10dip"
             android:textStyle="bold"/>
 
@@ -69,13 +70,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:text="No tengo cuenta. Me registrare!"
-        android:textColor="#226688"
+        android:text="@string/go_register"
+        android:textColor="@color/verde_aceptar"
         android:textStyle="bold"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp" />
+        android:layout_marginTop="37dip" />
 
 
 </RelativeLayout>

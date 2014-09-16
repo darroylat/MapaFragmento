@@ -57,7 +57,7 @@ public class DashboardActivity extends Activity {
             public void onClick(View view) {
                 Intent map = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(map);
-                finish();
+                //finish();
 
             }
         });
