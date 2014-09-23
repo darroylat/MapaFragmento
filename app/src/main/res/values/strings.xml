@@ -2,15 +2,17 @@
 <resources>
 
     <string name="app_name">Lerolero!</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Lerolero!</string>
+
 
     <string name="dialog_button_comment_cancel">Cancelar</string>
     <string name="dialog_button_comment_ok">Enviar</string>
 
-   <!-- Menu de registro y login -->
+   <!-- Menu -->
+    <string name="action_settings">Opciones</string>
+    <string name="action_refresh">Actualizar</string>
+    <string name="action_logout">Desconectar</string>
+   <!-- Layout de registro y login -->
     <string name="email">Correo electronico</string>
     <string name="password">Contraseña</string>
     <string name="full_name">Nombre completo</string>
@@ -25,4 +27,11 @@
     <string name="login_error">Correo o contraseña incorrecta</string>
 
 
+
+    <string-array name="emotion">
+        <item>@string/negative</item>
+        <item>@string/positive</item>
+    </string-array>
+    <string name="negative">Negativo</string>
+    <string name="positive">Positivo</string>
 </resources>

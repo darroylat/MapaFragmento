@@ -1,6 +1,5 @@
 package cl.arroyo.daniel.mapafragmento;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -85,7 +85,7 @@ public class RegisterActivity extends Activity {
                             finish();
                         }else{
                             // Error in registration
-                            registerErrorMsg.setText(R.string.register_error);
+                            registerErrorMsg.setText("Error occured in registration");
                         }
                     }
                 } catch (JSONException e) {

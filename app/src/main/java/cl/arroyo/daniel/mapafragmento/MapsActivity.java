@@ -15,25 +15,37 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import java.util.HashMap;
 
-import cl.arroyo.daniel.mapafragmento.libreria.DatabaseHandler;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cl.arroyo.daniel.mapafragmento.libreria.UserFunctions;
 
 public class MapsActivity extends FragmentActivity implements LocationListener{
@@ -41,6 +53,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
     private static final LatLng ROMA = new LatLng(42.093230818037,11.7971813678741);
     private LocationManager locationManager;
     private String provider;
+    long idemotion;
+    String emotion;
+    UserFunctions userFunctions;
+
+
+
 
 
 
@@ -50,6 +68,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         setContentView(R.layout.activity_maps);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
+
+        StrictMode.setThreadPolicy(policy);
 
         map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -74,7 +96,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         provider = locationManager.getBestProvider(criteria, false);
         final Location location = locationManager.getLastKnownLocation(provider);
 
+
         // Initialize the location fields
+
         if (location != null) {
             Toast.makeText(this, "Selected Provider " + provider,
                     Toast.LENGTH_SHORT).show();
@@ -89,32 +113,86 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         btnLocation.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnLocation.setText(getEmail());
-                onResume();
 
-                // create a Dialog component
+                //btnLocation.setText(getEmail());
+                onResume();
+                getLocation(location);
+
+
+                //Inicio comentario, Crea comonente dialog
                 final Dialog dialog = new Dialog(MapsActivity.this);
                 //tell the Dialog to use the dialog.xml as it's layout description
                 dialog.setContentView(R.layout.dialogcomment);
-               // dialog.setTitle("Android Custom Dialog Box");
-                TextView txt = (TextView) dialog.findViewById(R.id.txt);
-                txt.setText("This is an Android custom Dialog Box Example! Enjoy!");
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButton);
-                dialogButton.setOnClickListener(new OnClickListener() {
+                dialog.setTitle("Que piensas de este lugar");
+
+                final EditText txtComment = (EditText) dialog.findViewById(R.id.txtComment);
+
+
+                final Spinner emotionSpinner = (Spinner) dialog.findViewById(R.id.emotionSpinner);
+                List<String> listEmotion = new ArrayList<String>();
+
+                ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(MapsActivity.this, R.array.emotion, android.R.layout.simple_spinner_item);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                emotionSpinner.setAdapter(dataAdapter);
+                emotionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        emotion = adapterView.getItemAtPosition(i).toString();
+                        idemotion = adapterView.getItemIdAtPosition(i);
+                        Toast.makeText(adapterView.getContext(), "La emocion " + emotion + " id " + idemotion, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                //Boton cancelar del comentario
+                Button btnCancelComment = (Button) dialog.findViewById(R.id.btnCancelComment);
+                btnCancelComment.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
+
+                //Boton enviar del comentario
+                Button btnAcceptComment = (Button) dialog.findViewById(R.id.btnAcceptComment);
+                btnAcceptComment.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String commnet = txtComment.getText().toString();
+                        String email = getEmail();
+                        String emotion = String.valueOf(idemotion);
+                        String latitude = String.valueOf(location.getLatitude());
+                        String longitude = String.valueOf(location.getLongitude());
+
+                        UserFunctions userFunction = new UserFunctions();
+                        JSONObject json = userFunction.registerComment(commnet, email, emotion, latitude, longitude);
+                        Log.e("JSON", commnet.toString());
+                        Log.e("JSON", email.toString());
+                        Log.e("JSON", emotion.toString());
+                        Log.e("JSON", latitude.toString());
+                        Log.e("JSON", longitude.toString());
+                        dialog.dismiss();
+                    }
+                });
                 dialog.show();
-        }
+            }
+            //Fin Comentario
         });
+
+
+
+
+
         final Button btnupdate = (Button) findViewById(R.id.btnupdate);
         btnupdate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                getLocation(location);
+                getNewLocation();
             }
         });
     }
@@ -154,7 +232,63 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         map.animateCamera(cameraUpdate);
     }
     public void getNewLocation(){
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean enabledGPS = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean enabledWiFi = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!enabledGPS) {
+            Toast.makeText(this, "GPS signal not found", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
+
+        LocationListener gpsListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                locationManager.removeUpdates(this );
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+                locationManager.removeUpdates(this );
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+                locationManager.removeUpdates(this );
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+                locationManager.removeUpdates(this );
+            }
+        };
+
+        lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, gpsListener, null);
+
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        double lat =  location.getLatitude();
+        double lng = location.getLongitude();
+        Toast.makeText(this, "Location " + lat+","+lng,
+                Toast.LENGTH_LONG).show();
+        LatLng coordinate = new LatLng(lat, lng);
+        Toast.makeText(this, "Location " + coordinate.latitude+","+coordinate.longitude,
+                Toast.LENGTH_LONG).show();
+        Marker startPerc;
+
+        startPerc = map.addMarker(new MarkerOptions()
+                .position(coordinate)
+                .title("Aqui estas")
+                .snippet("Disfruta")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coordinate, 17);
+        map.animateCamera(cameraUpdate);
+
+
+
     }
 
     /* Request updates at startup */
@@ -168,37 +302,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
     @Override
     protected void onPause() {
         super.onPause();
-        locationManager.removeUpdates(this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        locationManager.removeUpdates(this);
+        locationManager.removeUpdates(this );
     }
 
 
-    @Override
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(this, "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
-
-    }
 
 
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
 
-    }
-
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-
-    }
 
 
     @Override
@@ -208,4 +318,50 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            case R.id.action_refresh:
+                Toast.makeText(this, "Reloading parkings...", Toast.LENGTH_LONG)
+                        .show();
+                return true;
+            case R.id.action_loguot:
+                userFunctions = new UserFunctions();
+                userFunctions.logoutUser(getApplicationContext());
+                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(login);
+                // Closing dashboard screen
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        locationManager.removeUpdates(this);
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }

@@ -2,6 +2,7 @@ package cl.arroyo.daniel.mapafragmento.libreria;
 
 import android.content.Context;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -17,9 +18,11 @@ public class UserFunctions {
 
     private static String loginURL = "http://daniel.arroyo.cl/android/";
     private static String registerURL = "http://daniel.arroyo.cl/android/";
+    private static String commentURL = "http://daniel.arroyo.cl/android/";
 
     private static String login_tag = "login";
     private static String register_tag = "register";
+    private static String comment_tag = "comment";
 
     // constructor
     public UserFunctions(){
@@ -63,6 +66,20 @@ public class UserFunctions {
         return json;
     }
 
+    public JSONObject registerComment(String comment, String email ,String emotion, String latitude, String longitude){
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", comment_tag));
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("emotion", emotion));
+        params.add(new BasicNameValuePair("comment", comment));
+        params.add(new BasicNameValuePair("latitude", latitude));
+        params.add(new BasicNameValuePair("longitude", longitude));
+
+        JSONObject json = jsonParser.getJSONFromUrl(commentURL, params);
+        //Log.e("JSON", json.toString());
+        return json;
+    }
+
     /**
      * Function get Login status
      * */
@@ -75,6 +92,7 @@ public class UserFunctions {
         }
         return false;
     }
+    //Conocer el correo del usuario
     public String getUserLoggedIn(Context context){
         DatabaseHandler db = new DatabaseHandler(context);
         HashMap<String, String> source = new HashMap<String, String>();
@@ -85,6 +103,7 @@ public class UserFunctions {
         return email;
 
     }
+
 
 
     /**
