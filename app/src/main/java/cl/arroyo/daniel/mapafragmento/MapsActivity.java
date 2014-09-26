@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
@@ -41,25 +43,30 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cl.arroyo.daniel.mapafragmento.libreria.UserFunctions;
 
-public class MapsActivity extends FragmentActivity implements LocationListener{
+public class MapsActivity extends FragmentActivity implements LocationListener {
     private GoogleMap map;
-    private static final LatLng ROMA = new LatLng(42.093230818037,11.7971813678741);
+    private static final LatLng ROMA = new LatLng(42.093230818037, 11.7971813678741);
     private LocationManager locationManager;
     private String provider;
     long idemotion;
     String emotion;
     UserFunctions userFunctions;
 
-
-
-
+    // JSON Response node names
+    private static String KEY_SUCCESS = "success";
+    private static String KEY_ERROR = "error";
+    private static String KEY_ERROR_MSG = "error_msg";
+    private static String KEY_COMMENT = "comment";
 
 
     @Override
@@ -184,9 +191,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
         });
 
 
-
-
-
         final Button btnupdate = (Button) findViewById(R.id.btnupdate);
         btnupdate.setOnClickListener(new OnClickListener() {
             @Override
@@ -198,19 +202,59 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
     }
 
 
+    public void getComments(String hora) {
+        UserFunctions userFunction = new UserFunctions();
+        JSONObject json = userFunction.getComments(hora);
+
+        try {
+
+            //recibe en formato JSON los comentarios
+            JSONArray jArray = json.optJSONArray("comentarios");
+
+            for (int i = 0; i < jArray.length(); i++) {
+
+                JSONObject jsonProductObject = jArray.getJSONObject(i);
+                String id = jsonProductObject.getString("commentid");
+                String emotion = jsonProductObject.getString("commentemotion");
+                String comment = jsonProductObject.getString("commentcomment");
+                String latitude = jsonProductObject.getString("commentlatitude");
+                String longitude = jsonProductObject.getString("commentlongitude");
+                String created = jsonProductObject.getString("commentcreated");
+                TextView prueba = (TextView) findViewById(R.id.txtProbando);
+                prueba.setText(latitude);
+                setLocationComment(Integer.parseInt(id),Integer.parseInt(emotion),created,comment,Double.valueOf(latitude).doubleValue(),Double.valueOf(longitude).doubleValue());
+                Log.i("Json", String.valueOf(jsonProductObject));
+            }
 
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+   }
 
 
-
-
-    //Función que obtiene el correo del usuario activo,
+                
+        //Función que obtiene el correo del usuario activo,
     public String getEmail(){
         UserFunctions userF = new UserFunctions();
         String email = userF.getUserLoggedIn(getApplicationContext());
         return email;
     }
+    public void setLocationComment(Integer id, Integer emotion, String created, String comment, Double latitude, Double longitude){
 
+        double lat =  latitude;
+        double lng = longitude;
+        //Toast.makeText(this, "Location " + lat+","+lng, Toast.LENGTH_LONG).show();
+        LatLng coordinate = new LatLng(lat, lng);
+        //Toast.makeText(this, "Location " + coordinate.latitude+","+coordinate.longitude, Toast.LENGTH_LONG).show();
+        Marker startPerc;
+
+        startPerc = map.addMarker(new MarkerOptions()
+                .position(coordinate)
+                .title(comment + " " + emotion + " " + id)
+                .snippet(created)
+                .icon(BitmapDescriptorFactory.defaultMarker()));
+    }
     public void getLocation(Location location) {
 
         double lat =  location.getLatitude();
@@ -226,7 +270,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
                 .position(coordinate)
                 .title("Aqui estas")
                 .snippet("Disfruta")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_location_found)));
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coordinate, 17);
         map.animateCamera(cameraUpdate);
@@ -286,9 +330,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coordinate, 17);
         map.animateCamera(cameraUpdate);
-
-
-
     }
 
     /* Request updates at startup */
@@ -328,8 +369,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
                 startActivity(intent);
                 return true;
             case R.id.action_refresh:
-                Toast.makeText(this, "Reloading parkings...", Toast.LENGTH_LONG)
-                        .show();
+
+                        getComments("-12");
+
+
                 return true;
             case R.id.action_loguot:
                 userFunctions = new UserFunctions();
@@ -339,6 +382,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener{
                 startActivity(login);
                 // Closing dashboard screen
                 finish();
+            case R.id.action_location:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

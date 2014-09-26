@@ -44,6 +44,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"/>
 
+    <TextView
+        android:id="@+id/txtProbando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chalapachala"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"/>
+
+
 
 </RelativeLayout>
 

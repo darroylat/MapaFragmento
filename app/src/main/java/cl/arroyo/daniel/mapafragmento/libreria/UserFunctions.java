@@ -19,10 +19,12 @@ public class UserFunctions {
     private static String loginURL = "http://daniel.arroyo.cl/android/";
     private static String registerURL = "http://daniel.arroyo.cl/android/";
     private static String commentURL = "http://daniel.arroyo.cl/android/";
+    private static String getcommentURL = "http://daniel.arroyo.cl/android/";
 
     private static String login_tag = "login";
     private static String register_tag = "register";
     private static String comment_tag = "comment";
+    private static String getcomment_tag = "getcomment";
 
     // constructor
     public UserFunctions(){
@@ -79,6 +81,15 @@ public class UserFunctions {
         //Log.e("JSON", json.toString());
         return json;
     }
+    public JSONObject getComments(String hora){
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag",getcomment_tag));
+        params.add(new BasicNameValuePair("hora", hora));
+
+        JSONObject json = jsonParser.getJSONFromUrl(getcommentURL, params);
+
+        return json;
+    }
 
     /**
      * Function get Login status
@@ -103,6 +114,7 @@ public class UserFunctions {
         return email;
 
     }
+
 
 
 
